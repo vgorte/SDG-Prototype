@@ -148,7 +148,6 @@ function addGSMLayer(countryName, countryTimeSeries, selectedYear, jenksClassifi
 		var el = document.createElement('div');
 		el.className = markerClasses[index];
 		
-		
 		var marker = new mapboxgl.Marker(el)
 			.setLngLat(center)
 			.setPopup(addPopUp(countryName, center, true));
@@ -157,8 +156,6 @@ function addGSMLayer(countryName, countryTimeSeries, selectedYear, jenksClassifi
 		marker.addTo(map);
 		
 	} else {
-		var shapeCenter = country.properties.center;
-		
 		var el = document.createElement('div');
 		el.className = markerClasses[markerClasses.length - 1];
 		
@@ -169,8 +166,6 @@ function addGSMLayer(countryName, countryTimeSeries, selectedYear, jenksClassifi
 		symbolMarkerArray.push(marker);
 		marker.addTo(map);
 	}
-	
-	addOutlineLayer(countryName);
 }
 
 function addChorientedLayer(countryName, countryTimeSeries, selectedYear, jenksClassification, center) {
@@ -229,8 +224,6 @@ function addChorientedMobileLayer(countryName, countryTimeSeries, selectedYear, 
 		marker.addTo(map);
 		
 	} else {
-		var shapeCenter = country.properties.center;
-		
 		var el = document.createElement('div');
 		el.className = markerClasses[markerClasses.length - 1];
 		
@@ -241,8 +234,6 @@ function addChorientedMobileLayer(countryName, countryTimeSeries, selectedYear, 
 		symbolMarkerArray.push(marker);
 		marker.addTo(map);
 	}
-	
-	addOutlineLayer(countryName);
 }
 
 (function () {
