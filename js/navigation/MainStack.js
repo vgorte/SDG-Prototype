@@ -21,7 +21,7 @@ export const MainStack = (props) => {
 				name="home"
 				component={HomeScreen}
 				options={({navigation, route}) => ({
-					headerTitle: 'Home',
+					headerTitle: 'SDG-PROTOTYPE',
 					headerRight: () => <SettingsIcon navigation={navigation}/>,
 				})}
 			/>

@@ -8,6 +8,7 @@ import React from 'react';
 import {StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 import {UIConstants} from '../constants/UIConstants';
+import {Styling} from '../constants/Styling';
 
 const {default_padding} = UIConstants;
 
@@ -29,6 +30,6 @@ export const SettingsIcon = ({navigation}) => {
 
 const styles = StyleSheet.create({
 	position: {
-		paddingRight: default_padding,
+		paddingRight: Styling.DEFAULT_PADDING,
 	},
 });

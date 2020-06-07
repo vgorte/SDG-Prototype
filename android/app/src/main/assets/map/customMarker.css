@@ -1,14 +1,94 @@
-.custom-marker {
-    color: #2B5F2C;
-    font-weight: bold;
-    text-align: center;
-    border-radius: 50%;
+.gsm-class-no-value {
+    width: 20px;
+    height: 20px;
+    border-radius: 50px;
+    border: 1px solid #000000;
+    background-color: #737373;
 }
 
-.marker-location {
-    background-image: url('Mapmarker.png');
-    background-size: cover;
-    width: 50px;
-    height: 50px;
-    cursor: pointer;
+.gsm-class-1 {
+    width: 10px;
+    height: 10px;
+    border-radius: 50px;
+    border: 1px solid #000000;
+    background-color: red;
+}
+
+.gsm-class-2 {
+    width: 20px;
+    height: 20px;
+    border-radius: 50px;
+    border: 1px solid #000000;
+    background-color: red;
+}
+
+.gsm-class-3 {
+    width: 30px;
+    height: 30px;
+    border-radius: 50px;
+    border: 1px solid #000000;
+    background-color: red;
+}
+
+.gsm-class-4 {
+    width: 40px;
+    height: 40px;
+    border-radius: 50px;
+    border: 1px solid #000000;
+    background-color: red;
+}
+
+.choriented-mobile-1 {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #000000;
+    background: repeating-linear-gradient(0deg,
+    #fde0dd,
+    #fde0dd 3px,
+    black 4px,
+    black 7px);
+}
+
+.choriented-mobile-2 {
+    width: 30px;
+    height: 30px;
+    border-radius: 2px;
+    border: 1px solid #000000;
+    background: repeating-linear-gradient(45deg,
+    #fa9fb5,
+    #fa9fb5 3px,
+    black 4px,
+    black 7px);
+}
+
+.choriented-mobile-3 {
+    width: 30px;
+    height: 30px;
+    border-radius: 2px;
+    border: 1px solid #000000;
+    background:repeating-linear-gradient(90deg,
+    #dd3497,
+    #dd3497 3px,
+    black 4px,
+    black 7px);
+}
+
+.choriented-mobile-4 {
+    width: 30px;
+    height: 30px;
+    border-radius: 2px;
+    border: 1px solid #000000;
+    background:repeating-linear-gradient(135deg,
+    #7a0177,
+    #7a0177 3px,
+    black 4px,
+    black 7px);
+}
+
+.choriented-mobile-no-value {
+    width: 30px;
+    height: 30px;
+    background: #737373;
+    border-radius: 2px;
+    border: 1px solid #000000;
 }
