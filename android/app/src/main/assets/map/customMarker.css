@@ -43,8 +43,8 @@
     height: 30px;
     border: 1px solid #000000;
     background: repeating-linear-gradient(0deg,
-    #fff7bc,
-    #fff7bc 3px,
+    #ffffe5,
+    #ffffe5 3px,
     black 4px,
     black 7px);
 }
@@ -55,8 +55,8 @@
     border-radius: 2px;
     border: 1px solid #000000;
     background: repeating-linear-gradient(45deg,
-    #fec44f,
-    #fec44f 3px,
+    #fff7bc,
+    #fff7bc 3px,
     black 4px,
     black 7px);
 }
@@ -67,8 +67,8 @@
     border-radius: 2px;
     border: 1px solid #000000;
     background:repeating-linear-gradient(90deg,
-    #ec7014,
-    #ec7014 3px,
+    #fee391,
+    #fee391 3px,
     black 4px,
     black 7px);
 }
@@ -79,12 +79,11 @@
     border-radius: 2px;
     border: 1px solid #000000;
     background:repeating-linear-gradient(135deg,
-    #993404,
-    #993404 3px,
+    #fec44f,
+    #fec44f 3px,
     black 4px,
     black 7px);
 }
-
 .choriented-mobile-no-value {
     width: 30px;
     height: 30px;

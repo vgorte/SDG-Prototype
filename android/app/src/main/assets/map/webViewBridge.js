@@ -112,7 +112,7 @@ function _addPopUp(countryName, center, forMarker) {
 }
 
 function addChoroplethLayer(countryName, countryTimeSeries, selectedYear, jenksClassification, center) {
-	var choroplethColors = ['#fff7bc', '#fec44f', '#ec7014', '#993404'];
+	var choroplethColors = ['#ffffe5', '#fff7bc', '#fee391', '#fec44f'];
 	var yearValue = countryTimeSeries[selectedYear];
 	var color;
 	if (yearValue !== null) {
