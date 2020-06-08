@@ -96,7 +96,7 @@ Example:
 ### SDG Data
 * Each goal contains all the countries that have data for that goal.
 * Each country contains a timeseries for that country.
-* The timeseries of each country **must** contain the same set of years.
+* The timeseries of each country of a goal **must** contain the same set of years.
 
 Example:
 
@@ -149,4 +149,4 @@ Example:
 
 ## Authors
 
-* **Viktor Gorte** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
+* **Viktor Gorte** 
