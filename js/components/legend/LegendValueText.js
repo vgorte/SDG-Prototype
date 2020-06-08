@@ -10,7 +10,6 @@ import {StyleSheet, Text, View} from 'react-native';
 export const LegendValueText = (props) => {
 	const {lowerLimit, upperLimit, itemForMissingValues} = props;
 	
-	//TODO add symbol according to class + Add symbol for no value class
 	return (
 		<View style={styles.itemContainer}>
 			{

@@ -44,5 +44,3 @@ export const GradientLegendSymbol = (props) => {
 		</LinearGradient>
 	);
 };
-
-const styles = StyleSheet.create({});

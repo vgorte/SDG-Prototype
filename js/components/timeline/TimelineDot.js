@@ -4,7 +4,7 @@
  * Date: 21.05.2020
  */
 
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {StyleSheet, View} from 'react-native';
 
 export const TimelineDot = (props) => {

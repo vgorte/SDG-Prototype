@@ -35,6 +35,7 @@ export const LegendContainer = (props) => {
 				</View>,
 			);
 		}
+		
 		legendComponents.push(
 			<View
 				style={styles.legendEntryContainer}

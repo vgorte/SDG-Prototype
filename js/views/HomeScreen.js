@@ -5,7 +5,7 @@
  */
 
 import React, {useState} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {Map} from '../map/Map';
 import {LegendButton} from '../components/LegendButton';
 import {LayerselectionIcon} from '../components/layerSelection/LayerselectionIcon';
@@ -46,6 +46,7 @@ export const HomeScreen = (props) => {
 	
 	return (
 		<View style={styles.container}>
+			
 			<GoalList data={data}/>
 			<LayerselectionIcon toggleLayerSelectionVisibility={_toggleLayerSelectionVisibility}/>
 			<LegendButton toggleLegendVisibility={_toggleLegendVisibility}/>

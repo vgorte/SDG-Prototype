@@ -4,7 +4,7 @@
  * Date: 11.05.2020
  */
 
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {StyleSheet, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 import {Styling} from '../../constants/Styling';

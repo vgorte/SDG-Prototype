@@ -12,7 +12,6 @@ function _getValuesFromYear(dataset, year) {
 	return values;
 }
 
-
 export function returnJenksClassification(dataset, year) {
 	const values = _getValuesFromYear(dataset, year);
 	const classifier = new Geostats(values);

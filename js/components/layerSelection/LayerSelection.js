@@ -4,8 +4,8 @@
  * Date: 18.05.2020
  */
 
-import React, {useState, useEffect} from 'react';
-import {StyleSheet, View, Text} from 'react-native';
+import React from 'react';
+import {StyleSheet, View} from 'react-native';
 import {Styling} from '../../constants/Styling';
 import {LayerSelectionItems} from './LayerSelectionItems';
 
@@ -38,5 +38,4 @@ const styles = StyleSheet.create({
 	text: {
 		color: 'white',
 	},
-	
 });

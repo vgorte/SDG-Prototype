@@ -4,7 +4,7 @@
  * Date: 21.05.2020
  */
 
-import React, {useEffect} from 'react';
+import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import Icon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 import {useGlobalState} from '../../contexts/GlobalContext';

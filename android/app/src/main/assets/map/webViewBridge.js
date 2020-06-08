@@ -340,7 +340,7 @@ function addChorientedMobileLayer(countryName, countryTimeSeries, selectedYear, 
 							var countryName = country.properties.ADMIN;
 							var countryTimeSeries = message.data[countryName];
 							var mainPolygon = _mainPolygon(country.geometry.coordinates);
-							var center = visualPolygonCenter(mainPolygon, 1.0, false, countryName);
+							var center = visualPolygonCenter(mainPolygon, 1.0, false);
 							
 							//if country exists in dataset, render it accordingly, else default
 							if (countryTimeSeries) {

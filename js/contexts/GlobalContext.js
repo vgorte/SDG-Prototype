@@ -6,7 +6,6 @@
 
 import React, {useCallback, useContext, useReducer} from 'react';
 
-const UPDATE_COLORMODE_USER = 'UPDATE_COLORMODE_USER';
 const UPDATE_COUNTRIES = 'UPDATE_COUNTRIES';
 const UPDATE_DATA = 'UPDATE_DATA';
 const UPDATE_SELECTED_GOAL = 'UPDATE_SELECTED_GOAL';
@@ -18,7 +17,6 @@ const UPDATE_JENKS_CLASSIFICATION = 'UPDATE_JENKS_CLASSIFICATION';
 const initialState = {
 	countries: null,
 	data: null,
-	userControlledColorMode: null,
 	selectedGoal: null,
 	selectedYear: null,
 	dataDuration: null,
@@ -30,11 +28,6 @@ export const GlobalContext = React.createContext(initialState);
 
 function reducer(state, action) {
 	switch (action.type) {
-		case UPDATE_COLORMODE_USER:
-			return state = {
-				...state,
-				darkMode: action.payload === 'dark',
-			};
 		case UPDATE_COUNTRIES:
 			return state = {
 				...state,
@@ -90,16 +83,6 @@ export const GlobalContextProvider = ({children}) => {
 
 export const useGlobalState = () => {
 	const [state, dispatch] = useContext(GlobalContext);
-	
-	const updateColorMode = useCallback(
-		(mode) => {
-			dispatch({
-				type: UPDATE_COLORMODE_USER,
-				payload: mode,
-			});
-		},
-		[dispatch],
-	);
 	
 	const updateCountries = useCallback(
 		(geojson) => {
@@ -172,7 +155,6 @@ export const useGlobalState = () => {
 	);
 	
 	return {
-		updateColorMode,
 		updateData,
 		updateCountries,
 		updateSelectedGoal,
@@ -182,7 +164,6 @@ export const useGlobalState = () => {
 		updateJenksClassification,
 		data: state.data,
 		countries: state.countries,
-		userControlledColorMode: state.userControlledColorMode,
 		selectedGoal: state.selectedGoal,
 		selectedYear: state.selectedYear,
 		dataDuration: state.dataDuration,
