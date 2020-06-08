@@ -1,8 +1,8 @@
-var symbolMarkerArray = [];
+var markerArray = [];
 var DEFAULT_NO_VALUE_COLOR = '#737373';
 
 function _mainPolygon(multipolygon) {
-	function calcPolygonArea(polygon) {
+	function _calcPolygonArea(polygon) {
 		var flatPolygon = polygon[0];
 		var sum = 0;
 		for (var i = 0, l = flatPolygon.length - 1; i < l; i++) {
@@ -23,7 +23,7 @@ function _mainPolygon(multipolygon) {
 		mainPolygon = multipolygon[0];
 	} else if (multipolygon.length > 1) {
 		for (var i = 0; i < multipolygon.length; i++) {
-			var area = calcPolygonArea(multipolygon[i]);
+			var area = _calcPolygonArea(multipolygon[i]);
 			if (largestArea < area) {
 				mainPolygon = multipolygon[i];
 				largestArea = area;
@@ -37,7 +37,7 @@ function _mainPolygon(multipolygon) {
 	return mainPolygon;
 }
 
-function removeAllExistingLayers(countries) {
+function _removeAllExistingLayers(countries) {
 	for (var i = 0; i < countries.features.length; i++) {
 		var country = countries.features[i];
 		var countryName = country.properties.ADMIN;
@@ -59,13 +59,13 @@ function removeAllExistingLayers(countries) {
 	}
 }
 
-function removeAllExistingMarksers() {
-	for (var i = 0; i < symbolMarkerArray.length; i++) {
-		symbolMarkerArray[i].remove();
+function _removeAllExistingMarksers() {
+	for (var i = 0; i < markerArray.length; i++) {
+		markerArray[i].remove();
 	}
 }
 
-function getClassificationIndex(countryValue, jenks) {
+function _getClassificationIndex(countryValue, jenks) {
 	function classifyCountryValue(value, min, max) {
 		if (value >= min && value <= max) {
 			return true;
@@ -85,7 +85,7 @@ function getClassificationIndex(countryValue, jenks) {
 	return (valueIndex(countryValue, jenks));
 }
 
-function addOutlineLayer(countryName) {
+function _addOutlineLayer(countryName) {
 	map.addLayer({
 		'id': countryName + '_outline',
 		'type': 'line',
@@ -98,7 +98,7 @@ function addOutlineLayer(countryName) {
 	});
 }
 
-function addPopUp(countryName, center, forMarker) {
+function _addPopUp(countryName, center, forMarker) {
 	if (forMarker) {
 		return new mapboxgl.Popup().setText(countryName);
 	} else {
@@ -116,7 +116,7 @@ function addChoroplethLayer(countryName, countryTimeSeries, selectedYear, jenksC
 	var yearValue = countryTimeSeries[selectedYear];
 	var color;
 	if (yearValue !== null) {
-		var index = getClassificationIndex(yearValue, jenksClassification);
+		var index = _getClassificationIndex(yearValue, jenksClassification);
 		color = choroplethColors[index];
 	} else {
 		color = DEFAULT_NO_VALUE_COLOR;
@@ -133,16 +133,16 @@ function addChoroplethLayer(countryName, countryTimeSeries, selectedYear, jenksC
 		'filter': ['==', 'ADMIN', countryName],
 	});
 	
-	addPopUp(countryName, center);
+	_addPopUp(countryName, center);
 	
-	addOutlineLayer(countryName);
+	_addOutlineLayer(countryName);
 }
 
 function addGSMLayer(countryName, countryTimeSeries, selectedYear, jenksClassification, country, center) {
 	var markerClasses = ['gsm-class-1', 'gsm-class-2', 'gsm-class-3', 'gsm-class-4', 'gsm-class-no-value'];
 	var yearValue = countryTimeSeries[selectedYear];
 	if (yearValue !== null) {
-		var index = getClassificationIndex(yearValue, jenksClassification);
+		var index = _getClassificationIndex(yearValue, jenksClassification);
 		
 		//Marker
 		var el = document.createElement('div');
@@ -150,9 +150,9 @@ function addGSMLayer(countryName, countryTimeSeries, selectedYear, jenksClassifi
 		
 		var marker = new mapboxgl.Marker(el)
 			.setLngLat(center)
-			.setPopup(addPopUp(countryName, center, true));
+			.setPopup(_addPopUp(countryName, center, true));
 		
-		symbolMarkerArray.push(marker);
+		markerArray.push(marker);
 		marker.addTo(map);
 		
 	} else {
@@ -161,9 +161,9 @@ function addGSMLayer(countryName, countryTimeSeries, selectedYear, jenksClassifi
 		
 		var marker = new mapboxgl.Marker(el)
 			.setLngLat(center)
-			.setPopup(addPopUp(countryName, center, true));
+			.setPopup(_addPopUp(countryName, center, true));
 		
-		symbolMarkerArray.push(marker);
+		markerArray.push(marker);
 		marker.addTo(map);
 	}
 }
@@ -173,7 +173,7 @@ function addChorientedLayer(countryName, countryTimeSeries, selectedYear, jenksC
 	var images = [stripesHorizontal, stripes45, stripesVertical, stripes135];
 	var image;
 	if (yearValue !== null) {
-		var index = getClassificationIndex(yearValue, jenksClassification);
+		var index = _getClassificationIndex(yearValue, jenksClassification);
 		image = images[index];
 		
 		map.addImage(countryName, image);
@@ -201,16 +201,16 @@ function addChorientedLayer(countryName, countryTimeSeries, selectedYear, jenksC
 		});
 	}
 	
-	addPopUp(countryName, center);
+	_addPopUp(countryName, center);
 	
-	addOutlineLayer(countryName);
+	_addOutlineLayer(countryName);
 }
 
 function addChorientedMobileLayer(countryName, countryTimeSeries, selectedYear, jenksClassification, country, center) {
 	var markerClasses = ['choriented-mobile-1', 'choriented-mobile-2', 'choriented-mobile-3', 'choriented-mobile-4', 'choriented-mobile-no-value'];
 	var yearValue = countryTimeSeries[selectedYear];
 	if (yearValue !== null) {
-		var index = getClassificationIndex(yearValue, jenksClassification);
+		var index = _getClassificationIndex(yearValue, jenksClassification);
 		
 		//Marker
 		var el = document.createElement('div');
@@ -218,9 +218,9 @@ function addChorientedMobileLayer(countryName, countryTimeSeries, selectedYear, 
 		
 		var marker = new mapboxgl.Marker(el)
 			.setLngLat(center)
-			.setPopup(addPopUp(countryName, center, true));
+			.setPopup(_addPopUp(countryName, center, true));
 		
-		symbolMarkerArray.push(marker);
+		markerArray.push(marker);
 		marker.addTo(map);
 		
 	} else {
@@ -229,9 +229,9 @@ function addChorientedMobileLayer(countryName, countryTimeSeries, selectedYear, 
 		
 		var marker = new mapboxgl.Marker(el)
 			.setLngLat(center)
-			.setPopup(addPopUp(countryName, center, true));
+			.setPopup(_addPopUp(countryName, center, true));
 		
-		symbolMarkerArray.push(marker);
+		markerArray.push(marker);
 		marker.addTo(map);
 	}
 }
@@ -325,9 +325,9 @@ function addChorientedMobileLayer(countryName, countryTimeSeries, selectedYear, 
 						var countries = message.countries;
 						
 						//remove all existing data layers
-						removeAllExistingLayers(countries);
-						if (symbolMarkerArray.length != 0) {
-							removeAllExistingMarksers();
+						_removeAllExistingLayers(countries);
+						if (markerArray.length != 0) {
+							_removeAllExistingMarksers();
 						}
 						
 						map.addSource('countries', {
@@ -340,7 +340,6 @@ function addChorientedMobileLayer(countryName, countryTimeSeries, selectedYear, 
 							var countryName = country.properties.ADMIN;
 							var countryTimeSeries = message.data[countryName];
 							var mainPolygon = _mainPolygon(country.geometry.coordinates);
-							
 							var center = visualPolygonCenter(mainPolygon, 1.0, false, countryName);
 							
 							//if country exists in dataset, render it accordingly, else default

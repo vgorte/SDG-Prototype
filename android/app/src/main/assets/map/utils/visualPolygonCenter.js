@@ -1,3 +1,88 @@
+function _compareMax(a, b) {
+	return b.max - a.max;
+}
+
+function Cell(x, y, h, polygon) {
+	this.x = x; // cell center x
+	this.y = y; // cell center y
+	this.h = h; // half the cell size
+	this.d = _pointToPolygonDist(x, y, polygon); // distance from cell center to polygon
+	this.max = this.d + this.h * Math.SQRT2; // max distance to polygon within a cell
+}
+
+// signed distance from point to polygon outline (negative if point is outside)
+function _pointToPolygonDist(x, y, polygon) {
+	var inside = false;
+	var minDistSq = Infinity;
+	
+	for (var k = 0; k < polygon.length; k++) {
+		var ring = polygon[k];
+		
+		for (var i = 0, len = ring.length, j = len - 1; i < len; j = i++) {
+			var a = ring[i];
+			var b = ring[j];
+			
+			if ((a[1] > y !== b[1] > y) &&
+				(x < (b[0] - a[0]) * (y - a[1]) / (b[1] - a[1]) + a[0])) {
+				inside = !inside;
+			}
+			
+			minDistSq = Math.min(minDistSq, _getSegDistSq(x, y, a, b));
+		}
+	}
+	
+	return (inside ? 1 : -1) * Math.sqrt(minDistSq);
+}
+
+// get polygon centroid
+function _getCentroidCell(polygon) {
+	var area = 0;
+	var x = 0;
+	var y = 0;
+	var points = polygon[0];
+	
+	for (var i = 0, len = points.length, j = len - 1; i < len; j = i++) {
+		var a = points[i];
+		var b = points[j];
+		var f = a[0] * b[1] - b[0] * a[1];
+		x += (a[0] + b[0]) * f;
+		y += (a[1] + b[1]) * f;
+		area += f * 3;
+	}
+	if (area === 0) {
+		return new Cell(points[0][0], points[0][1], 0, polygon);
+	}
+	return new Cell(x / area, y / area, 0, polygon);
+}
+
+// get squared distance from a point to a segment
+function _getSegDistSq(px, py, a, b) {
+	
+	var x = a[0];
+	var y = a[1];
+	var dx = b[0] - x;
+	var dy = b[1] - y;
+	
+	if (dx !== 0 || dy !== 0) {
+		
+		var t = ((px - x) * dx + (py - y) * dy) / (dx * dx + dy * dy);
+		
+		if (t > 1) {
+			x = b[0];
+			y = b[1];
+			
+		} else if (t > 0) {
+			x += dx * t;
+			y += dy * t;
+		}
+	}
+	
+	dx = px - x;
+	dy = py - y;
+	
+	return dx * dx + dy * dy;
+}
+
 function visualPolygonCenter(polygon, precision, debug, countryName) {
 	precision = precision || 1.0;
 	
@@ -21,25 +106,24 @@ function visualPolygonCenter(polygon, precision, debug, countryName) {
 	
 	var width = maxX - minX;
 	var height = maxY - minY;
-	var cellSize = Math.min(width, height);
-	var h = cellSize / 2;
+	var cSize = Math.min(width, height);
+	var h = cSize / 2;
 	
-	if (cellSize === 0) {
+	if (cSize === 0) {
 		return [minX, minY];
 	}
 	
-	// a priority queue of cells in order of their "potential" (max distance to polygon)
-	var cellQueue = new TinyQueue(undefined, compareMax);
+	var cellQueue = new PriorityQueue(undefined, _compareMax);
 	
 	// cover polygon with initial cells
-	for (var x = minX; x < maxX; x += cellSize) {
-		for (var y = minY; y < maxY; y += cellSize) {
+	for (var x = minX; x < maxX; x += cSize) {
+		for (var y = minY; y < maxY; y += cSize) {
 			cellQueue.push(new Cell(x + h, y + h, h, polygon));
 		}
 	}
 	
 	// take centroid as the first best guess
-	var bestCell = getCentroidCell(polygon);
+	var bestCell = _getCentroidCell(polygon);
 	
 	// special case for rectangular polygons
 	var bboxCell = new Cell(minX + width / 2, minY + height / 2, 0, polygon);
@@ -53,7 +137,7 @@ function visualPolygonCenter(polygon, precision, debug, countryName) {
 		// pick the most promising cell from the queue
 		var cell = cellQueue.pop();
 		
-		// update the best cell if we found a better one
+		// update the best cell if found a better one
 		if (cell.d > bestCell.d) {
 			bestCell = cell;
 			if (debug) {
@@ -88,89 +172,4 @@ function visualPolygonCenter(polygon, precision, debug, countryName) {
 	//switch x/y coordinates for mapbox format
 	return [bestCell.x, bestCell.y];
 	
-}
-
-function compareMax(a, b) {
-	return b.max - a.max;
-}
-
-function Cell(x, y, h, polygon) {
-	this.x = x; // cell center x
-	this.y = y; // cell center y
-	this.h = h; // half the cell size
-	this.d = pointToPolygonDist(x, y, polygon); // distance from cell center to polygon
-	this.max = this.d + this.h * Math.SQRT2; // max distance to polygon within a cell
-}
-
-// signed distance from point to polygon outline (negative if point is outside)
-function pointToPolygonDist(x, y, polygon) {
-	var inside = false;
-	var minDistSq = Infinity;
-	
-	for (var k = 0; k < polygon.length; k++) {
-		var ring = polygon[k];
-		
-		for (var i = 0, len = ring.length, j = len - 1; i < len; j = i++) {
-			var a = ring[i];
-			var b = ring[j];
-			
-			if ((a[1] > y !== b[1] > y) &&
-				(x < (b[0] - a[0]) * (y - a[1]) / (b[1] - a[1]) + a[0])) {
-				inside = !inside;
-			}
-			
-			minDistSq = Math.min(minDistSq, getSegDistSq(x, y, a, b));
-		}
-	}
-	
-	return (inside ? 1 : -1) * Math.sqrt(minDistSq);
-}
-
-// get polygon centroid
-function getCentroidCell(polygon) {
-	var area = 0;
-	var x = 0;
-	var y = 0;
-	var points = polygon[0];
-	
-	for (var i = 0, len = points.length, j = len - 1; i < len; j = i++) {
-		var a = points[i];
-		var b = points[j];
-		var f = a[0] * b[1] - b[0] * a[1];
-		x += (a[0] + b[0]) * f;
-		y += (a[1] + b[1]) * f;
-		area += f * 3;
-	}
-	if (area === 0) {
-		return new Cell(points[0][0], points[0][1], 0, polygon);
-	}
-	return new Cell(x / area, y / area, 0, polygon);
-}
-
-// get squared distance from a point to a segment
-function getSegDistSq(px, py, a, b) {
-	
-	var x = a[0];
-	var y = a[1];
-	var dx = b[0] - x;
-	var dy = b[1] - y;
-	
-	if (dx !== 0 || dy !== 0) {
-		
-		var t = ((px - x) * dx + (py - y) * dy) / (dx * dx + dy * dy);
-		
-		if (t > 1) {
-			x = b[0];
-			y = b[1];
-			
-		} else if (t > 0) {
-			x += dx * t;
-			y += dy * t;
-		}
-	}
-	
-	dx = px - x;
-	dy = py - y;
-	
-	return dx * dx + dy * dy;
 }

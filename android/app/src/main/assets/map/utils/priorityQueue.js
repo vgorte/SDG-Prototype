@@ -1,4 +1,6 @@
-class TinyQueue {
+//based on https://github.com/mourner/tinyqueue
+
+class PriorityQueue {
 	constructor(data = [], compare = defaultCompare) {
 		this.data = data;
 		this.length = this.data.length;

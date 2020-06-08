@@ -43,8 +43,8 @@
     height: 30px;
     border: 1px solid #000000;
     background: repeating-linear-gradient(0deg,
-    #fde0dd,
-    #fde0dd 3px,
+    #fff7bc,
+    #fff7bc 3px,
     black 4px,
     black 7px);
 }
@@ -55,8 +55,8 @@
     border-radius: 2px;
     border: 1px solid #000000;
     background: repeating-linear-gradient(45deg,
-    #fa9fb5,
-    #fa9fb5 3px,
+    #fec44f,
+    #fec44f 3px,
     black 4px,
     black 7px);
 }
@@ -67,8 +67,8 @@
     border-radius: 2px;
     border: 1px solid #000000;
     background:repeating-linear-gradient(90deg,
-    #dd3497,
-    #dd3497 3px,
+    #ec7014,
+    #ec7014 3px,
     black 4px,
     black 7px);
 }
@@ -79,8 +79,8 @@
     border-radius: 2px;
     border: 1px solid #000000;
     background:repeating-linear-gradient(135deg,
-    #7a0177,
-    #7a0177 3px,
+    #993404,
+    #993404 3px,
     black 4px,
     black 7px);
 }
