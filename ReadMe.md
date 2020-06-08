@@ -8,7 +8,9 @@ Download / Clone this repository.
 
 The repository contains SDG data and a geojson file with countries. The files can be replaced / extended with data or files.
 
-You can find the data files in the `/pecularities/` folder.
+You can find the data files in the `pecularities` folder.
+
+
 
 ### Prerequisites
 
@@ -46,6 +48,99 @@ When activating the debuggin mode, you can find the debugger-ui here:
 
 `http://localhost:8081/debugger-ui/
 `
+
+## Data Format
+The country data and the SDG data need to be provided in the following format.
+
+### Country Geojson
+The geojson file with the country shapes follows the [geojson standart](https://tools.ietf.org/html/rfc7946) by the IETF.
+Each country needs an `ADMIN`property, which holds the name of the country. That name should be identical to the country name in the SDG data file.
+
+Example:
+
+```geojson
+{
+   "type":"FeatureCollection",
+   "features":[
+      {
+         "type":"Feature",
+         "properties":{
+            "ADMIN":"Germany"
+         },
+         "geometry":{
+            "type":"MultiPolygon",
+            "coordinates":[
+               "..."
+            ]
+         }
+      },
+      {
+         "type":"Feature",
+         "properties":{
+            "ADMIN":"France"
+         },
+         "geometry":{
+            "type":"MultiPolygon",
+            "coordinates":[
+               "..."
+            ]
+         }
+      }
+   ]
+}
+
+``` 
+
+
+
+### SDG Data
+* Each goal contains all the countries that have data for that goal.
+* Each country contains a timeseries for that country.
+* The timeseries of each country **must** contain the same set of years.
+
+Example:
+
+```json
+{
+  "goal_1" : {
+    "country_1": {
+      "2017": 13.0,
+      "2018": 14.1,
+      "2019": 15.4
+    },
+    "country_2": {
+      "2017": 10.0,
+      "2018": 10.1,
+      "2019": 10.4
+    },
+    "country_3": {
+      "2017": 9.0,
+      "2018": 9.1,
+      "2019": 9.4
+    }
+  },
+   "goal_2" : {
+    "country_1": {
+      "2016": 13.0,
+      "2017": 13.0,
+      "2018": 13.1,
+      "2019": 13.4
+    },
+    "country_2": {
+      "2016": 11.0,
+      "2017": 11.0,
+      "2018": 11.1,
+      "2019": 11.4
+    },
+    "country_3": {
+      "2016": 10.0,
+      "2017": 10.0,
+      "2018": 12.1,
+      "2019": 10.4
+    }
+  }
+}
+```
 
 ## Built With
 
