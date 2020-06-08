@@ -146,7 +146,9 @@ Example:
 
 * [React-Native](https://reactnative.dev/)
 * [Mapbox GL JS](https://docs.mapbox.com/mapbox-gl-js/api/)
+* [Center Of Polygon](https://github.com/mapbox/polylabel)
+* [TinyQueue](https://github.com/mourner/tinyqueue)
 
-## Authors
+## Author
 
 * **Viktor Gorte** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
