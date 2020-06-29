@@ -1,28 +1,28 @@
-var stripes_vertical_base64 = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAlCAIAAADEJv4oAAAAIElEQVQ4jWP893giAymAiSTVoxpGNQxvDaNgFIyC4QUACqsClKJPHXkAAAAASUVORK5CYII=';
-var stripes_horizontal_base64 = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAlCAIAAADEJv4oAAAAIElEQVQ4jWP8//8pAymAiSTVoxpGNQxvDaNgFIyC4QUAKegDBRo1guIAAAAASUVORK5CYII=';
-var stripes_45_base64 = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAIAAAADnC86AAAAs0lEQVRYhcXWsQ7EMAgDUGDrf/Wz779uvBsqVVWUNoHaDovxgN6K/74fq45ve/3WzJbYfoTe9nMT234tStubLrNbWGZ3YI3dhwX2Lcy2n2CqPYB59hgm2VMww56F4XYCxto5GGinYZRdgSF2EX5v1+GXdqx69sIWPXtxhN6OcxPbcS1KO5ous1tYZndgjd2HBfYtzLafYKo9gHn2GCbZUzDDnoXhdgLG2jkYaKdhlF2BIfYfAzh37v/RohoAAAAASUVORK5CYII=';
-var stripes_135_base64 = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAIAAAADnC86AAAAwklEQVRYhcXYwQ2AMAwDwJS52IFZ2YG5EB8kBCptk9hu/9UpP9vlPDaLvmXd43+nqOexBeGkarGL82oEhqhuGKX6YKDqgLHqKAxXh2CG2odJagfmqS2Yqv7CbLUOC9QKrFG/sEx9wUr1gcXqDetVMythMqOm4GRKDML5bBqBIYnYDaNyuA8Gpn8HjO0cozC86QzBjH7Vh0mtrgPzumQLpjbYX5jdm+uwoK1XYM1G8IVly8QLVu4hDyxeYcoU9YanLE4XdT93Tcs2L/MAAAAASUVORK5CYII=';
+var stripes_horizontal_base64 = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAeCAIAAACqmwlGAAAAH0lEQVQ4jWP8//8pAymAiSTVoxpGNQykhlEwCoYxAAAS3wMBioY7HwAAAABJRU5ErkJggg==';
+var stripes_22_base64 = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB8AAAAfCAIAAACQzIFuAAAAzElEQVRIibXUMQ6CQBSE4Z3DWG6i/WYPZGXjKWys5DJUxoQOTSw9CCUWJoi4sI9982gIhMzXLD9i8OfTfrfdONl1f7wOx8v19pR8jM/NyMD4gW7g/xXRSKwTjdl1ipFZVxqIwQuPV4GBvqtXHeFVBvquHii68V23MKbrXCO9zjKW1vVGfl1joG0qo/zG4OHM8uvGJbAwpp3hGumKsYylRuqNfIE1hqjvxQbapjLKrxv+VaPE/5SAbiQ6QzRmK0YxMo1UGqICFxvSvpcZb8LYOZEtnfeKAAAAAElFTkSuQmCC';
+var stripes_45_base64 = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAIAAAC0Ujn1AAAAj0lEQVRIibXUwQnAMAgFUHWPzthZOmP3KD0EQpAkGv160Q/y8CR/70Pukuv2LzMRFencWoXOfYLrPAaszioDdU0D9QmN0uc0RF/SeX1HJ3WDzug2HdZddEz30gH9gD7W6/61HN/i1qW1Cl36BNdlDFhdVAbqmgbqExqlz2mIvqTz+o5O6gad0W06rLvomP4DBRBZn4bPUIUAAAAASUVORK5CYII=';
+var stripes_67_base64 = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAA8CAIAAAD+Np3IAAABZUlEQVRYhbXYMUoDQRTG8c9nL0J6O63ExV5yAS/hCZScJCh6DO8guYBELMRGLxCw8AAWLq47zO58894322QHhj8/Qnbnkb1lt3h6uAB3Xa9f7h8/yM222e6e37/I3Xers2W3YNMAVrev5G4A65vTinQV/PzkkITb70cLeJ9uAbe/Ozl8SMvh9n+hhY/SWrglayE8TQvhaRo6eCatgmfSEMHzaQk8n4YCPpmOwyfTCMPn0kH4XBoxeCEdgRfSCMDLaTe8nIYXTqV9cCoNF5xNO+D7vOXt8/vq8ojc3B0fGD/D1cKNn+FQ+Y0bP8OhEm6oGT5RAzfUDJ+ogfc/vhbwPt0CPjwycviQlsNHD7oWPkpr4enrSQhP00J45qWqgmfSKnj+KJDA82kJfPIAi8Mn03H43LEbhM+lg/DCsBCBF9IReHnEccPLaTecGsx8cCrtg7PjpAPOph1wNo16uLX4hw/AZrv7AXppEymkSeKyAAAAAElFTkSuQmCC';
 
-var stripesVertical  = new Image();
+var stripesVertical = new Image();
 stripesVertical.onLoad = function () {
 	console.log(stripesVertical.width);
 };
-stripesVertical.src = stripes_vertical_base64;
+stripesVertical.src = stripes_67_base64;
 
-var stripesHorizontal  = new Image();
+var stripesHorizontal = new Image();
 stripesHorizontal.onLoad = function () {
 	console.log(stripesHorizontal.width);
 };
 stripesHorizontal.src = stripes_horizontal_base64;
 
-var stripes45  = new Image();
+var stripes45 = new Image();
 stripes45.onLoad = function () {
 	console.log(stripes45.width);
 };
-stripes45.src = stripes_45_base64;
+stripes45.src = stripes_22_base64;
 
-var stripes135  = new Image();
+var stripes135 = new Image();
 stripes135.onLoad = function () {
 	console.log(stripes135.width);
 };
-stripes135.src = stripes_135_base64;
+stripes135.src = stripes_45_base64;

@@ -1,5 +1,4 @@
 export const LegendStyling = {
-	
 	//choropleth
 	choroplethColors: ['#ffffe5', '#fff7bc', '#fee391', '#fec44f'],
 	DEFAULT_MISSING_VALUE_COLOR: '#737373',
@@ -10,6 +9,5 @@ export const LegendStyling = {
 	
 	//choriented
 	chorientedColors: ['#ffffe5', '#fff7bc', '#fee391', '#fec44f'],
-	chorientedOrientation: [0, 45, 90, 135],
-	
+	chorientedOrientation: [0, 23, 45, 67],
 };

@@ -1,5 +1,9 @@
 var markerArray = [];
 var DEFAULT_NO_VALUE_COLOR = '#737373';
+var firstIteration = true;
+var choroplethColors = ['#ffffe5', '#fff7bc', '#fee391', '#fec44f'];
+
+var renderTimestart = null;
 
 function _mainPolygon(multipolygon) {
 	function _calcPolygonArea(polygon) {
@@ -38,6 +42,9 @@ function _mainPolygon(multipolygon) {
 }
 
 function _removeAllExistingLayers(countries) {
+	
+	var start = window.performance.now();
+	
 	for (var i = 0; i < countries.features.length; i++) {
 		var country = countries.features[i];
 		var countryName = country.properties.ADMIN;
@@ -53,15 +60,23 @@ function _removeAllExistingLayers(countries) {
 			map.removeImage(countryName);
 		}
 	}
-	//remove source
-	if (map.getSource('countries')) {
-		map.removeSource('countries');
-	}
+	
+	var end = window.performance.now();
+	console.log(`Removing all layers: ${end - start}  milliseconds`);
+	
 }
 
 function _removeAllExistingMarksers() {
+	var markersExisted = markerArray.length > 0;
+	var start = window.performance.now();
+	
 	for (var i = 0; i < markerArray.length; i++) {
 		markerArray[i].remove();
+	}
+	
+	var end = window.performance.now();
+	if (markersExisted) {
+		console.log(`Removing all markers took: ${end - start}  milliseconds`);
 	}
 }
 
@@ -82,6 +97,7 @@ function _getClassificationIndex(countryValue, jenks) {
 			}
 		}
 	};
+	
 	return (valueIndex(countryValue, jenks));
 }
 
@@ -112,7 +128,6 @@ function _addPopUp(countryName, center, forMarker) {
 }
 
 function addChoroplethLayer(countryName, countryTimeSeries, selectedYear, jenksClassification, center) {
-	var choroplethColors = ['#ffffe5', '#fff7bc', '#fee391', '#fec44f'];
 	var yearValue = countryTimeSeries[selectedYear];
 	var color;
 	if (yearValue !== null) {
@@ -306,19 +321,6 @@ function addChorientedMobileLayer(countryName, countryTimeSeries, selectedYear, 
 				return;
 			}
 			
-			if (message.mode) {
-				var darkStyle = 'https://tiles.convotis.com/default/map/v1/styles/dark-matter/style.json?apiKey=swVCskv6Cmmj22W';
-				var lightStyle = 'https://tiles.convotis.com/default/map/v1/styles/osm-bright/style.json?apiKey=swVCskv6Cmmj22W';
-				
-				if (message.mode == 'dark' && currentColorMode !== message.mode) {
-					currentColorMode = 'dark';
-					map.setStyle(darkStyle);
-				} else if (currentColorMode !== message.mode) {
-					currentColorMode = 'light';
-					map.setStyle(lightStyle);
-				}
-			}
-			
 			if (message.countries && message.data && message.jenksClassification && message.selectedYear && message.selectedVisualizationType) {
 				mapLoaded
 					.then(function () {
@@ -326,13 +328,33 @@ function addChorientedMobileLayer(countryName, countryTimeSeries, selectedYear, 
 						
 						//remove all existing data layers
 						_removeAllExistingLayers(countries);
+						
 						if (markerArray.length != 0) {
 							_removeAllExistingMarksers();
 						}
 						
-						map.addSource('countries', {
-							type: 'geojson',
-							data: countries,
+						if (firstIteration) {
+							map.addSource('countries', {
+								type: 'geojson',
+								data: countries,
+							});
+							
+							firstIteration = false;
+						}
+						var start = window.performance.now();
+						
+						map.on('render', function () {
+							if (!renderTimestart) { //first render
+								renderTimestart = performance.now();
+							}
+						});
+						
+						map.on('idle', function () {
+							var end = performance.now();
+							if (renderTimestart) {
+								console.log(`rendering layers took: ${end - renderTimestart}  milliseconds`);
+								renderTimestart = null;
+							}
 						});
 						
 						for (var i = 0; i < countries.features.length; i++) {
@@ -361,17 +383,11 @@ function addChorientedMobileLayer(countryName, countryTimeSeries, selectedYear, 
 								}
 							}
 						}
+						
+						var end = window.performance.now();
+						console.log(`Adding ${message.selectedVisualizationType} layers: ${end - start}  milliseconds`);
 					});
 			}
-			
-			if (message.data) {
-				console.log('data: ', message.data);
-			}
-			
-			if (message.jenksClassification) {
-				console.log('jenks: ', message.jenksClassification);
-			}
-			
 			
 			//trigger callback
 			if (callbacks[message.msgId]) {

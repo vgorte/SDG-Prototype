@@ -6,10 +6,10 @@
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no'/>
     <script src='./mapbox-gl/mapbox-gl.js'></script>
     <link href='./mapbox-gl/mapbox-gl.css' rel='stylesheet'/>
-    <script type="text/javascript" src="webViewBridge.js"></script>
     <script type="text/javascript" src="stripedImages.js"></script>
     <script type="text/javascript" src="utils/priorityQueue.js"></script>
     <script type="text/javascript" src="utils/visualPolygonCenter.js"></script>
+    <script type="text/javascript" src="webViewBridge.js"></script>
     <link href='customMarker.css' rel='stylesheet'/>
 
     <style>
@@ -57,7 +57,7 @@
 						'maxzoom': 22,
 					}],
 				},
-				zoom: 2.5,
+				zoom: 3,
 				center: [7.2, 52],
 				attributionControl: false,
 			});
@@ -65,7 +65,7 @@
 			map.touchZoomRotate.disableRotation();
 
 			map.setMaxZoom(5);
-			map.setMinZoom(2)
+			map.setMinZoom(2);
 
 			map.on('load', function () {
 				mapAlreadyLoaded = true;
