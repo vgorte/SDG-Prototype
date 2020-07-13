@@ -142,6 +142,26 @@ Example:
 }
 ```
 
+## Choriented Maps
+This prototype uses choriented maps, among other visualization types, for visualizing SDG data.
+
+Choriented maps are an extension of choropleth maps, both are based on color values as their
+[Visual Variable](https://www.researchgate.net/publication/317266613_Visual_Variables). Since color values are highly impacted by lighting conditions, 
+that come with the mobility aspect of mobile devices, we extend the color value visual variable with orientation lines. 
+Orientation lines allow for easier comparison between geographic entities.
+
+There are two types of choriented maps:
+
+
+| ChorientedMap     | Choriented Mobile Map     |
+|------------|-------------|
+|------------|-------------|
+| Covers whole shape     | Marker filled with pattern     |
+|------------|-------------|
+| ![Screenshot](screenshots/chorientedMap.jpg)|![Screenshot](screenshots/chorientedMobile.jpg)|
+
+
+
 ## Built With
 
 * [React-Native](https://reactnative.dev/)
