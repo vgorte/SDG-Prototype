@@ -153,7 +153,7 @@ Orientation lines allow for easier comparison between geographic entities.
 There are two types of choriented maps:
 
 
-| ChorientedMap     | Choriented Mobile Map     |
+| Choriented Map     | Choriented Mobile Map     |
 |------------|-------------|
 | Covers whole shape     | Marker filled with pattern     |
 | ![Screenshot](screenshots/chorientedMap.jpg)|![Screenshot](screenshots/chorientedMobile.jpg)|
