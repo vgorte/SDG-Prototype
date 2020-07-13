@@ -11,22 +11,30 @@ export const LegendValueText = (props) => {
 	const {lowerLimit, upperLimit, itemForMissingValues} = props;
 	
 	return (
-		<View style={styles.itemContainer}>
+		<>
 			{
 				itemForMissingValues &&
-				<Text style={styles.text}>NO VALUE</Text>
+				<Text style={styles.text}>NO DATA</Text>
 			}
 			
 			{
 				(!itemForMissingValues && lowerLimit && upperLimit) &&
-				<Text style={styles.text}>{lowerLimit}% - {upperLimit}%</Text>
+				<View style={styles.valuContainer}>
+					<Text style={styles.text}>{lowerLimit}</Text>
+					<Text style={styles.text}>-</Text>
+					<Text style={styles.text}>{upperLimit}</Text>
+				</View>
 			}
-		</View>
+		</>
 	);
 };
 
 const styles = StyleSheet.create({
-	itemContainer: {},
+	valuContainer: {
+		flexDirection: 'row',
+		flex:1,
+		justifyContent: "space-around"
+	},
 	text: {
 		color: 'white',
 		fontSize: 18,
