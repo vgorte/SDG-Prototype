@@ -28,13 +28,18 @@ export const GoalListItem = (props) => {
 		const lowestYear = dataSetDuration[0];
 		updateSelectedGoal(dataKey);
 		updateDataDuration(dataSetDuration);
-		if(selectedYear < lowestYear || selectedYear > dataSetDuration[dataSetDuration.length-1]){
-			updateSelectedYear(lowestYear)
+		if (selectedYear < lowestYear || selectedYear > dataSetDuration[dataSetDuration.length - 1]) {
+			updateSelectedYear(lowestYear);
+			setListVisibility(false);
+			updateJenksClassification(
+				returnJenksClassification(datasetCountries, lowestYear),
+			);
+		}else{
+			setListVisibility(false);
+			updateJenksClassification(
+				returnJenksClassification(datasetCountries, selectedYear),
+			);
 		}
-		setListVisibility(false);
-		updateJenksClassification(
-			returnJenksClassification(datasetCountries, lowestYear),
-		);
 	};
 	
 	return (

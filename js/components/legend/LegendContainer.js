@@ -87,8 +87,8 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 		padding: 8,
 	},
-	missingValueTextPosition:{
-		flex:1,
+	missingValueTextPosition: {
+		flex: 1,
 		alignItems: "center",
 	}
 });

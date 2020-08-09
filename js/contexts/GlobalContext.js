@@ -66,8 +66,7 @@ function reducer(state, action) {
 		default:
 			return state;
 	}
-}
-;
+};
 
 export const GlobalContextProvider = ({children}) => {
 	const [state, dispatch] = useReducer(reducer, {
