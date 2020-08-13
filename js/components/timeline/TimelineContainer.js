@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 import {useGlobalState} from '../../contexts/GlobalContext';
 import {TimelineDot} from './TimelineDot';
@@ -49,11 +49,15 @@ export const TimelineContainer = (props) => {
 		<View style={styles.timelineContainer}>
 			<Text>{selectedYear}</Text>
 			<View style={styles.timeline}>
-				<Icon
-					name={'chevron-left'}
+				<TouchableOpacity
 					onPress={_previousYear}
-					size={32}
-				/>
+				>
+					<Icon
+						name={'chevron-left'}
+						size={32}
+					/>
+				</TouchableOpacity>
+				
 				
 				<View style={styles.timelineLine}/>
 				
@@ -64,11 +68,14 @@ export const TimelineContainer = (props) => {
 					}
 				</View>
 				
-				<Icon
-					name={'chevron-right'}
+				<TouchableOpacity
 					onPress={_nextYear}
-					size={32}
-				/>
+				>
+					<Icon
+						name={'chevron-right'}
+						size={32}
+					/>
+				</TouchableOpacity>
 			</View>
 		</View>
 	);
