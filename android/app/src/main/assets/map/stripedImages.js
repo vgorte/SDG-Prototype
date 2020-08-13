@@ -3,26 +3,26 @@ var stripes_22_base64 = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB8AAAAfC
 var stripes_45_base64 = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAIAAAC0Ujn1AAAAj0lEQVRIibXUwQnAMAgFUHWPzthZOmP3KD0EQpAkGv160Q/y8CR/70Pukuv2LzMRFencWoXOfYLrPAaszioDdU0D9QmN0uc0RF/SeX1HJ3WDzug2HdZddEz30gH9gD7W6/61HN/i1qW1Cl36BNdlDFhdVAbqmgbqExqlz2mIvqTz+o5O6gad0W06rLvomP4DBRBZn4bPUIUAAAAASUVORK5CYII=';
 var stripes_67_base64 = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAA8CAIAAAD+Np3IAAABZUlEQVRYhbXYMUoDQRTG8c9nL0J6O63ExV5yAS/hCZScJCh6DO8guYBELMRGLxCw8AAWLq47zO58894322QHhj8/Qnbnkb1lt3h6uAB3Xa9f7h8/yM222e6e37/I3Xers2W3YNMAVrev5G4A65vTinQV/PzkkITb70cLeJ9uAbe/Ozl8SMvh9n+hhY/SWrglayE8TQvhaRo6eCatgmfSEMHzaQk8n4YCPpmOwyfTCMPn0kH4XBoxeCEdgRfSCMDLaTe8nIYXTqV9cCoNF5xNO+D7vOXt8/vq8ojc3B0fGD/D1cKNn+FQ+Y0bP8OhEm6oGT5RAzfUDJ+ogfc/vhbwPt0CPjwycviQlsNHD7oWPkpr4enrSQhP00J45qWqgmfSKnj+KJDA82kJfPIAi8Mn03H43LEbhM+lg/DCsBCBF9IReHnEccPLaTecGsx8cCrtg7PjpAPOph1wNo16uLX4hw/AZrv7AXppEymkSeKyAAAAAElFTkSuQmCC';
 
-var stripesVertical = new Image();
-stripesVertical.onLoad = function () {
-	console.log(stripesVertical.width);
+var stripes_horizontal = new Image();
+stripes_horizontal.onLoad = function () {
+	console.log(stripes_horizontal.width);
 };
-stripesVertical.src = stripes_67_base64;
+stripes_horizontal.src = stripes_horizontal_base64;
 
-var stripesHorizontal = new Image();
-stripesHorizontal.onLoad = function () {
-	console.log(stripesHorizontal.width);
+var stripes_22 = new Image();
+stripes_22.onLoad = function () {
+	console.log(stripes_22.width);
 };
-stripesHorizontal.src = stripes_horizontal_base64;
+stripes_22.src = stripes_22_base64;
 
-var stripes45 = new Image();
-stripes45.onLoad = function () {
-	console.log(stripes45.width);
+var stripes_45 = new Image();
+stripes_45.onLoad = function () {
+	console.log(stripes_45.width);
 };
-stripes45.src = stripes_22_base64;
+stripes_45.src = stripes_45_base64;
 
-var stripes135 = new Image();
-stripes135.onLoad = function () {
-	console.log(stripes135.width);
+var stripes_67 = new Image();
+stripes_67.onLoad = function () {
+	console.log(stripes_67.width);
 };
-stripes135.src = stripes_45_base64;
+stripes_67.src = stripes_67_base64;

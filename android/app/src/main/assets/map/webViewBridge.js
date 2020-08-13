@@ -185,7 +185,7 @@ function addGSMLayer(countryName, countryTimeSeries, selectedYear, jenksClassifi
 
 function addChorientedLayer(countryName, countryTimeSeries, selectedYear, jenksClassification, center) {
 	var yearValue = countryTimeSeries[selectedYear];
-	var images = [stripesHorizontal, stripes45, stripesVertical, stripes135];
+	var images = [stripes_horizontal, stripes_22, stripes_45, stripes_67];
 	var image;
 	if (yearValue !== null) {
 		var index = _getClassificationIndex(yearValue, jenksClassification);
