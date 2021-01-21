@@ -1,0 +1,905 @@
+---
+title: "Study_Results"
+author: "Viktor Gorte"
+date: "10 10 2020"
+output: html_document
+---
+
+```{r setup, include=TRUE, error=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+# Setup of libs & data
+library(bootES)
+library(readr)
+library("ggplot2")
+library(xtable)
+
+data = read_csv(
+  file = "study_data_preprocessed.csv",
+  col_names = TRUE,
+)
+```
+
+## Results
+The following tables show all possible, not necessarily measningful, results. By "possible" I mean that I had the required data (independent variables such as familiarity with choropleth and GSM or the familiarity with geography in the EU can not be used since all aprticipants stated that they were familiar. Age can not be used because a vast majority of participants is in the same age group, making grouping by bootES impossible).
+
+The following table shows all possible combinations of independent and dependent variables (This markdown contains results for all listet combinations): 
+```{r}
+#| Dependend 1           | Dependend 2             | Independend |
+#| :-------------------: | :---------------------: | :---------- |
+#| Owned OperatingSystem | Effectiveness           | Tasks       |
+#|                       |                         | Vis types   |
+#| Owned OperatingSystem | Confidence              | Tasks       |
+#|                       |                         | Vis types   |
+#| Owned OperatingSystem | Time Needed for solving | Tasks       |
+#|                       |                         | Vis types   |
+#| Gender                | Effectiveness           | Tasks       |
+#|                       |                         | Vis types   |
+#| Gender                | Confidence              | Tasks       |
+#|                       |                         | Vis types   |
+#| Gender                | Time Needed for solving | Tasks       |
+#|                       |                         | Vis types   |
+#| Daily DeviceUsage     | Effectiveness           | Tasks       |
+#|                       |                         | Vis types   |
+#| Daily DeviceUsage     | Confidence              | Tasks       |
+#|                       |                         | Vis types   |
+#| Daily DeviceUsage     | Time Needed for solving | Tasks       |
+#|                       |                         | Vis types   |
+#| Weekly Map AppUsage   | Effectiveness           | Tasks       |
+#|                       |                         | Vis types   |
+#| Weekly Map AppUsage   | Confidence              | Tasks       |
+#|                       |                         | Vis types   |
+#| Weekly Map AppUsage   | Time Needed for solving | Tasks       |
+#|                       |                         | Vis types   |
+#| Subjective Best       | Effectiveness           | Tasks       |
+#|                       |                         | Vis types   |
+#| Subjective Best       | Confidence              | Tasks       |
+#|                       |                         | Vis types   |
+#| Subjective Best       | Time Needed for solving | Tasks       |
+#|                       |                         | Vis types   |
+#| Subjective Worst      | Effectiveness           | Tasks       |
+#|                       |                         | Vis types   |
+#| Subjective Worst      | Confidence              | Tasks       |
+#|                       |                         | Vis types   |
+#| Subjective Worst      | Time Needed for solving | Tasks       |
+#|                       |                         | Vis types   |
+```
+
+## How to read the titles: 
+For example: "Owned Operating System - Effectivness - TaskType"
+
+This can be read as : "How does the owned operating system affect the effectiveness when filtering by the task types"
+
+## Errors
+Whenever you see "No Diff." in a result table, that means that bootES threw an error because the data sets were identical.
+
+```{r}
+# function for dependend variable x dependend variable x task type analysis
+
+#Loops over all task types; Filter the dataset according to the current task type and use as bootES dataset. Group and Data col, as well as the values to group by are provided in function call.
+#Return result table, which can be converted to latex with xtable.
+bootES_task_analysis = function(contrast1, contrast2, data_col, group_col){
+
+tasktypes = c("Trend", "Cluster", "Frequency", "Distribution")
+result_table = data.frame(
+  c1=as.character(),
+  c2=as.character(),
+  datacol=as.character(),
+  TaskType=as.character(),
+  Stat=as.numeric(),
+  CI_low=as.numeric(),
+  CI_high=as.numeric(),
+  Bias=as.numeric(),
+  SE=as.numeric()
+)
+  
+contrast_vector = setNames(c(1, -1), c(contrast1, contrast2))
+
+
+for(tasktype in tasktypes){
+  task = data[data$Task_Type == tasktype,]
+
+  output = capture.output(
+    bootES(
+      task,
+      data.col = data_col,
+      group.col = group_col,
+      contrast = contrast_vector,
+    )
+  )
+  
+t = strsplit(output[6], fixed = T, split = "      ")
+result_table = rbind(result_table, list(c1=contrast1, c2=contrast2, datacol=data_col, TaskType=tasktype,Stat=t[[1]][1], CI_low=t[[1]][2], CI_high=t[[1]][3], Bias=t[[1]][4], SE=t[[1]][5]), stringsAsFactors=F )
+}
+
+return(result_table)
+}
+```
+
+```{r}
+# function for dependend variable x dependend variable x vis type analysis
+
+#Loops over all task types per visualization type, filtering the data according to the current task type and visualization type.
+#Return result table, which can be converted to latex with xtable.
+bootES_vistype_analysis1 = function(contrast1, contrast2, data_col, group_col){
+
+result_table = data.frame(
+  c1=as.character(),
+  c2=as.character(),
+  datacol=as.character(),
+  Vis=as.character(),
+  Stat=as.numeric(),
+  CI_low=as.numeric(),
+  CI_high=as.numeric(),
+  Bias=as.numeric(),
+  SE=as.numeric()
+)
+
+contrast_vector = setNames(c(1, -1), c(contrast1, contrast2))
+
+a = data[get("Vis_Type", data) %in% c("Choropleth Map"),]
+
+tryCatch({
+ output = capture.output(
+  bootES(
+    a,
+    data.col = data_col,
+    group.col = group_col,
+    contrast = contrast_vector,
+  )
+)
+t = strsplit(output[6], fixed = T, split = "      ")
+
+result_table = rbind(result_table, list(c1=contrast1, c2=contrast2,datacol=data_col, Vis="Choropleth Map",  Stat=t[[1]][1], CI_low=t[[1]][2], CI_high=t[[1]][3], Bias=t[[1]][4], SE=t[[1]][5]), stringsAsFactors=F )
+}, error=function(e){
+result_table <<- rbind(result_table, list(c1=contrast1, c2=contrast2,datacol=data_col, Vis="Choropleth Map", Stat="No Diff.", CI_low=0, CI_high=0, Bias=0, SE=0), stringsAsFactors=F )
+  })
+
+
+a = data[get("Vis_Type", data) %in% c("Choriented Map"),]
+
+tryCatch({
+ output = capture.output(
+  bootES(
+    a,
+    data.col = data_col,
+    group.col = group_col,
+    contrast = contrast_vector,
+  )
+)
+t = strsplit(output[6], fixed = T, split = "      ")
+result_table = rbind(result_table, list(c1=contrast1, c2=contrast2,datacol=data_col, Vis="Choriented Map", Stat=t[[1]][1], CI_low=t[[1]][2], CI_high=t[[1]][3], Bias=t[[1]][4], SE=t[[1]][5]), stringsAsFactors=F )
+}, error=function(e){
+  result_table <<- rbind(result_table, list(c1=contrast1, c2=contrast2,datacol=data_col, Vis="Choriented Map", Stat="No Diff.", CI_low=0, CI_high=0, Bias=0, SE=0), stringsAsFactors=F )
+  })
+
+
+
+a = data[get("Vis_Type", data) %in% c("Choriented Mobile"),]
+
+tryCatch({
+ output = capture.output(
+  bootES(
+    a,
+    data.col = data_col,
+    group.col = group_col,
+    contrast = contrast_vector,
+  )
+)
+t = strsplit(output[6], fixed = T, split = "      ")
+result_table = rbind(result_table, list(c1=contrast1, c2=contrast2,datacol=data_col, Vis="Choriented Mobile", Stat=t[[1]][1], CI_low=t[[1]][2], CI_high=t[[1]][3], Bias=t[[1]][4], SE=t[[1]][5]), stringsAsFactors=F )
+}, error=function(e){
+  result_table <<- rbind(result_table, list(c1=contrast1, c2=contrast2,datacol=data_col, Vis="Choriented Mobile", Stat="No Diff.", CI_low=0, CI_high=0, Bias=0, SE=0), stringsAsFactors=F )
+  })
+
+
+
+
+a = data[get("Vis_Type", data) %in% c("GSM"),]
+
+tryCatch({
+ output = capture.output(
+  bootES(
+    a,
+    data.col = data_col,
+    group.col = group_col,
+    contrast = contrast_vector,
+  )
+)
+t = strsplit(output[6], fixed = T, split = "      ")
+result_table = rbind(result_table, list(c1=contrast1, c2=contrast2, datacol=data_col, Vis="GSM", Stat=t[[1]][1], CI_low=t[[1]][2], CI_high=t[[1]][3], Bias=t[[1]][4], SE=t[[1]][5]), stringsAsFactors=F )
+}, error=function(e){
+    result_table <<- rbind(result_table, list(c1=contrast1, c2=contrast2, datacol=data_col,Vis="GSM", Stat="No Diff.", CI_low=0, CI_high=0, Bias=0, SE=0), stringsAsFactors=F )
+  }
+)
+
+
+return(result_table)
+
+}
+```
+
+```{r}
+# function for subjective best/worst x dependend variable x vis type analysis
+
+#Loops over all vis types. For each vis type, all possible contrast pairs are used for the bootES calculation.
+#Return result table, which can be converted to latex with xtable.
+bootES_subjectivity_vis_analysis = function(data_col, group_col){
+  
+contrast_pairs = list(c("Choropleth Map", "GSM"), c("Choropleth Map", "Choriented Map"), c("Choropleth Map", "Choriented Mobile"), c("GSM", "Choriented Map"), c("GSM", "Choriented Mobile"), c("Choriented Map", "Choriented Mobile"))
+
+maptypes = c("Choropleth Map", "GSM", "Choriented Map", "Choriented Mobile")
+
+result_table = data.frame(
+  Subj_I=as.character(),
+  Subj_II=as.character(),
+  Maptype=as.character(),
+  Stat=as.numeric(),
+  CI_low=as.numeric(),
+  CI_high=as.numeric(),
+  Bias=as.numeric(),
+  SE=as.numeric()
+)
+
+for(i in 1:length(contrast_pairs)){
+  contrast1 = contrast_pairs[[i]][1]
+  contrast2 = contrast_pairs[[i]][2]
+  
+  for(maptype in maptypes){
+  
+  task = data[data$Vis_Type == maptype,]
+  contrast_vector = setNames(c(1, -1), c(contrast1, contrast2))
+  
+  tryCatch({
+   output = capture.output(
+    bootES(
+      task,
+      data.col = data_col,
+      group.col = group_col,
+      contrast = contrast_vector,
+    )
+  )
+  t = strsplit(output[6], fixed = T, split = "      ")
+  
+  result_table = rbind(result_table, list(Subj_I=contrast1, Subj_II=contrast2, Maptype=maptype, Stat=t[[1]][1], CI_low=t[[1]][2], CI_high=t[[1]][3], Bias=t[[1]][4], SE=t[[1]][5]), stringsAsFactors=F )
+  }, error=function(e){
+      result_table <<- rbind(result_table, list(Subj_I=contrast1, Subj_II=contrast2, Maptype=maptype, Stat="No Diff.", CI_low=0, CI_high=0, Bias=0, SE=0), stringsAsFactors=F )
+    })
+  }
+}
+
+return(result_table)
+
+}
+```
+
+```{r}
+# function for subjective best/worst x dependend variable x task type analysis
+
+#Loops over all vis types. For each vis type, all possible contrast pairs are used for the bootES calculation.
+#Return result table, which can be converted to latex with xtable.
+bootES_subjectivity_task_analysis = function(data_col, group_col){
+  
+contrast_pairs = list(c("Choropleth Map", "GSM"), c("Choropleth Map", "Choriented Map"), c("Choropleth Map", "Choriented Mobile"), c("GSM", "Choriented Map"), c("GSM", "Choriented Mobile"), c("Choriented Map", "Choriented Mobile"))
+
+tasktypes = c("Trend", "Cluster", "Frequency", "Distribution")
+
+result_table = data.frame(
+  Subj_I=as.character(),
+  Subj_II=as.character(),
+  Tasktype=as.character(),
+  Stat=as.numeric(),
+  CI_low=as.numeric(),
+  CI_high=as.numeric(),
+  Bias=as.numeric(),
+  SE=as.numeric()
+)
+
+for(i in 1:length(contrast_pairs)){
+  contrast1 = contrast_pairs[[i]][1]
+  contrast2 = contrast_pairs[[i]][2]
+  
+  for(tasktype in tasktypes){
+  
+  task = data[data$Task_Type == tasktype,]
+  contrast_vector = setNames(c(1, -1), c(contrast1, contrast2))
+  
+  tryCatch({
+   output = capture.output(
+    bootES(
+      task,
+      data.col = data_col,
+      group.col = group_col,
+      contrast = contrast_vector,
+    )
+  )
+  t = strsplit(output[6], fixed = T, split = "      ")
+  
+  result_table = rbind(result_table, list(Subj_I=contrast1, Subj_II=contrast2, Tasktype=tasktype, Stat=t[[1]][1], CI_low=t[[1]][2], CI_high=t[[1]][3], Bias=t[[1]][4], SE=t[[1]][5]), stringsAsFactors=F )
+  }, error=function(e){
+      result_table <<- rbind(result_table, list(Subj_I=contrast1, Subj_II=contrast2, Tasktype=tasktype, Stat="No Diff.", CI_low=0, CI_high=0, Bias=0, SE=0), stringsAsFactors=F )
+    })
+  }
+}
+
+return(result_table)
+
+}
+```
+
+```{r}
+# function for answering Q1
+bootES_viztype_influence = function(data_col){
+
+#possible vis type combinations
+contrast_pairs = list(
+    c(
+      "Choriented Mobile", "Choriented Map"
+    ),
+    c(
+      "Choriented Mobile", "Choropleth Map"
+    ),
+    c(
+      "Choriented Mobile", "GSM"
+    ),
+    c(
+      "Choriented Map", "Choropleth Map"
+    ),
+    c(
+      "Choriented Map", "GSM"
+    ),
+    c(
+      "Choropleth Map", "GSM"
+    )
+  )
+
+result_table = data.frame(
+  Vis_I=as.character(),
+  Vis_II=as.character(),
+  Tasktype=as.character(),
+  Stat=as.numeric(),
+  CI_low=as.numeric(),
+  CI_high=as.numeric(),
+  Bias=as.numeric(),
+  SE=as.numeric()
+)
+
+for(i in 1:length(contrast_pairs)){
+  contrast1 = contrast_pairs[[i]][1]
+  contrast2 = contrast_pairs[[i]][2]
+  
+  v1_v2 = data[data$Vis_Type %in% c(contrast1, contrast2),]
+  contrast_vector = setNames(c(1, -1), c(contrast1, contrast2))
+  
+  tryCatch({
+   output = capture.output(
+     bootES(
+        v1_v2,
+        data.col = data_col,
+        group.col = "Vis_Type",
+        contrast = contrast_vector
+    )
+  )
+  t = strsplit(output[6], fixed = T, split = "      ")
+  
+  result_table = rbind(result_table, list(Vis_I=contrast1, Vis_II=contrast2, Stat=t[[1]][1], CI_low=t[[1]][2], CI_high=t[[1]][3], Bias=t[[1]][4], SE=t[[1]][5]), stringsAsFactors=F )
+  }, error=function(e){
+      print(e)
+      result_table <<- rbind(result_table, list(Vis_I=contrast1, Subj_II=contrast2, Stat="No Diff.", CI_low=0, CI_high=0, Bias=0, SE=0), stringsAsFactors=F )
+    })
+  
+}
+
+return(result_table)
+}
+```
+
+```{r}
+# function for answering Q2
+bootES_task_influence = function(data_col){
+
+#possible task type combinations
+contrast_pairs = list(
+    c(
+      "Trend", "Cluster"
+    ),
+    c(
+      "Trend", "Frequency"
+    ),
+    c(
+      "Trend", "Distribution"
+    ),
+    c(
+      "Cluster", "Frequency"
+    ),
+    c(
+      "Cluster", "Distribution"
+    ),
+    c(
+      "Frequency", "Distribution"
+    )
+  )
+
+result_table = data.frame(
+  Vis_I=as.character(),
+  Vis_II=as.character(),
+  Tasktype=as.character(),
+  Stat=as.numeric(),
+  CI_low=as.numeric(),
+  CI_high=as.numeric(),
+  Bias=as.numeric(),
+  SE=as.numeric()
+)
+
+for(i in 1:length(contrast_pairs)){
+  contrast1 = contrast_pairs[[i]][1]
+  contrast2 = contrast_pairs[[i]][2]
+  
+  v1_v2 = data[data$Task_Type %in% c(contrast1, contrast2),]
+  contrast_vector = setNames(c(1, -1), c(contrast1, contrast2))
+  
+  tryCatch({
+   output = capture.output(
+     bootES(
+        v1_v2,
+        data.col = data_col,
+        group.col = "Task_Type",
+        contrast = contrast_vector
+    )
+  )
+  t = strsplit(output[6], fixed = T, split = "      ")
+  
+  result_table = rbind(result_table, list(Vis_I=contrast1, Vis_II=contrast2, Stat=t[[1]][1], CI_low=t[[1]][2], CI_high=t[[1]][3], Bias=t[[1]][4], SE=t[[1]][5]), stringsAsFactors=F )
+  }, error=function(e){
+      print(e)
+      result_table <<- rbind(result_table, list(Vis_I=contrast1, Subj_II=contrast2, Stat="No Diff.", CI_low=0, CI_high=0, Bias=0, SE=0), stringsAsFactors=F )
+    })
+  
+}
+
+return(result_table)
+}
+```
+
+```{r}
+# function for answering Q2
+bootES_time_needed_analysis = function(c1, c2, data_col, group_col){
+
+result_table = data.frame(
+  Vis=as.character(),
+  Stat=as.numeric(),
+  CI_low=as.numeric(),
+  CI_high=as.numeric(),
+  Bias=as.numeric(),
+  SE=as.numeric()
+)
+
+
+
+contrast_vector = setNames(c(1, -1), c(c1, c2))
+
+a = data[get("Vis_Type", data) %in% c("Choropleth Map"),]
+
+tryCatch({
+ output = capture.output(
+  bootES(
+    a,
+    data.col = data_col,
+    group.col = group_col,
+    contrast = contrast_vector,
+  )
+)
+t = strsplit(output[6], fixed = T, split = "      ")
+
+result_table = rbind(result_table, list(Vis="Choropleth Map",  Stat=t[[1]][1], CI_low=t[[1]][2], CI_high=t[[1]][3], Bias=t[[1]][4], SE=t[[1]][5]), stringsAsFactors=F )
+}, error=function(e){
+result_table <<- rbind(result_table, list(Vis="Choropleth Map", Stat="No Diff.", CI_low=0, CI_high=0, Bias=0, SE=0), stringsAsFactors=F )
+  })
+
+
+a = data[get("Vis_Type", data) %in% c("Choriented Map"),]
+
+tryCatch({
+ output = capture.output(
+  bootES(
+    a,
+    data.col = data_col,
+    group.col = group_col,
+    contrast = contrast_vector,
+  )
+)
+t = strsplit(output[6], fixed = T, split = "      ")
+result_table = rbind(result_table, list(Vis="Choriented Map", Stat=t[[1]][1], CI_low=t[[1]][2], CI_high=t[[1]][3], Bias=t[[1]][4], SE=t[[1]][5]), stringsAsFactors=F )
+}, error=function(e){
+  result_table <<- rbind(result_table, list(Vis="Choriented Map", Stat="No Diff.", CI_low=0, CI_high=0, Bias=0, SE=0), stringsAsFactors=F )
+  })
+
+
+
+a = data[get("Vis_Type", data) %in% c("Choriented Mobile"),]
+
+tryCatch({
+ output = capture.output(
+  bootES(
+    a,
+    data.col = data_col,
+    group.col = group_col,
+    contrast = contrast_vector,
+  )
+)
+t = strsplit(output[6], fixed = T, split = "      ")
+result_table = rbind(result_table, list(Vis="Choriented Mobile", Stat=t[[1]][1], CI_low=t[[1]][2], CI_high=t[[1]][3], Bias=t[[1]][4], SE=t[[1]][5]), stringsAsFactors=F )
+}, error=function(e){
+  result_table <<- rbind(result_table, list(Vis="Choriented Mobile", Stat="No Diff.", CI_low=0, CI_high=0, Bias=0, SE=0), stringsAsFactors=F )
+  })
+
+
+
+
+a = data[get("Vis_Type", data) %in% c("GSM"),]
+
+tryCatch({
+ output = capture.output(
+  bootES(
+    a,
+    data.col = data_col,
+    group.col = group_col,
+    contrast = contrast_vector,
+  )
+)
+t = strsplit(output[6], fixed = T, split = "      ")
+result_table = rbind(result_table, list( Vis="GSM", Stat=t[[1]][1], CI_low=t[[1]][2], CI_high=t[[1]][3], Bias=t[[1]][4], SE=t[[1]][5]), stringsAsFactors=F )
+}, error=function(e){
+    result_table <<- rbind(result_table, list(Vis="GSM", Stat="No Diff.", CI_low=0, CI_high=0, Bias=0, SE=0), stringsAsFactors=F )
+  }
+)
+
+
+return(result_table)
+
+}
+
+```
+
+## Q1: did viz type had an influence on time, confidence, and effectiveness ratings?
+```{r}
+bootES_viztype_influence("Confidence_Mean")
+
+bootES_viztype_influence("Effectivness")
+
+bootES_viztype_influence("Time_Needed_Mean")
+```
+
+## Q2: did patterns to be detected had an influence on time, confidence, and effectiveness ratings?
+```{r}
+bootES_task_influence("Confidence_Mean")
+
+bootES_task_influence("Effectivness")
+
+bootES_task_influence("Time_Needed_Mean")
+```
+
+## Q7: did mobile phone usage had an impact on the subjectivity ratings?
+```{r}
+
+#Fallback solution: 
+table(data$Subjective_Best) / 4
+table(data$Subjective_Worst) / 4
+```
+
+
+## Owned Operating System - Effectivness - Task/Vis
+```{r}
+bootES_task_analysis(
+  contrast1 = "Android",
+  contrast2 = "iOS",
+  data_col = "Effectivness",
+  group_col = "BG_OS"
+  )
+
+bootES_vistype_analysis1(
+  contrast1 = "Android",
+  contrast2 = "iOS",
+  data_col = "Effectivness",
+  group_col = "BG_OS"
+)
+```
+
+## Owned Operating System - Confidence - Task/Vis
+```{r}
+bootES_task_analysis(
+  contrast1 = "Android",
+  contrast2 = "iOS",
+  data_col = "Confidence_Mean",
+  group_col = "BG_OS"
+  )
+
+bootES_vistype_analysis1(
+  contrast1 = "Android",
+  contrast2 = "iOS",
+  data_col = "Confidence_Mean",
+  group_col = "BG_OS"
+)
+```
+
+## Owned Operating System - Time Needed - Task/Vis
+```{r}
+bootES_task_analysis(
+  contrast1 = "Android",
+  contrast2 = "iOS",
+  data_col = "Time_Needed_Mean",
+  group_col = "BG_OS"
+  )
+
+bootES_vistype_analysis1(
+  contrast1 = "Android",
+  contrast2 = "iOS",
+  data_col = "Time_Needed_Mean",
+  group_col = "BG_OS"
+)
+
+
+
+```
+
+## Gender - Effectiveness - VisType/Task
+```{r}
+bootES_vistype_analysis1(
+  contrast1 = "F",
+  contrast2 = "M",
+  data_col = "Effectivness",
+  group_col = "BG_Gender"
+)
+
+bootES_task_analysis(
+   contrast1 = "F",
+  contrast2 = "M",
+  data_col = "Effectivness",
+  group_col = "BG_Gender"
+)
+
+```
+
+## Gender - Confidence - VisType/Task
+```{r}
+bootES_vistype_analysis1(
+  contrast1 = "F",
+  contrast2 = "M",
+  data_col = "Confidence_Mean",
+  group_col = "BG_Gender"
+)
+
+bootES_task_analysis(
+  contrast1 = "F",
+  contrast2 = "M",
+  data_col = "Confidence_Mean",
+  group_col = "BG_Gender"
+)
+```
+
+## Gender - time needed - VisType/Task
+```{r}
+bootES_vistype_analysis1(
+  contrast1 = "F",
+  contrast2 = "M",
+  data_col = "Time_Needed_Mean",
+  group_col = "BG_Gender"
+)
+
+bootES_task_analysis(
+  contrast1 = "F",
+  contrast2 = "M",
+  data_col = "Time_Needed_Mean",
+  group_col = "BG_Gender"
+)
+```
+
+## Weekly map app usage - time needed - VisType/task
+```{r}
+bootES_vistype_analysis1(
+  contrast1 = "3", # 2-4 times per week
+  contrast2 = "5", # 8+ times per week
+  data_col = "Time_Needed_Mean",
+  group_col = "BG_Weekly_Usage_MapsApplications"
+)
+
+bootES_task_analysis(
+  contrast1 = "3", # 2-4 times per week
+  contrast2 = "5", # 8+ times per week
+  data_col = "Time_Needed_Mean",
+  group_col = "BG_Weekly_Usage_MapsApplications"
+)
+```
+
+## Weekly map app usage - Confidence - VisType/task
+```{r}
+bootES_vistype_analysis1(
+  contrast1 = "3", # 2-4 times per week
+  contrast2 = "5", # 8+ times per week
+  data_col = "Confidence_Mean",
+  group_col = "BG_Weekly_Usage_MapsApplications"
+)
+
+bootES_task_analysis(
+  contrast1 = "3", # 2-4 times per week
+  contrast2 = "5", # 8+ times per week
+  data_col = "Confidence_Mean",
+  group_col = "BG_Weekly_Usage_MapsApplications"
+)
+```
+
+## Weekly map app usage - Effectiveness - VisType/task
+```{r}
+bootES_vistype_analysis1(
+  contrast1 = "3", # 2-4 times per week
+  contrast2 = "5", # 8+ times per week
+  data_col = "Effectivness",
+  group_col = "BG_Weekly_Usage_MapsApplications"
+)
+
+bootES_task_analysis(
+  contrast1 = "3", # 2-4 times per week
+  contrast2 = "5", # 8+ times per week
+  data_col = "Effectivness",
+  group_col = "BG_Weekly_Usage_MapsApplications"
+)
+```
+
+## Daily device usage - Effectiveness - VisType/task
+```{r}
+bootES_vistype_analysis1(
+  contrast1 = "3", # 30-60 minss
+  contrast2 = "6", # 120+ mins
+  data_col = "Effectivness",
+  group_col = "BG_Daily_Usage"
+)
+
+bootES_task_analysis(
+  contrast1 = "3", # 30-60 minss
+  contrast2 = "6", # 120+ mins
+  data_col = "Effectivness",
+  group_col = "BG_Daily_Usage"
+)
+
+xtable(
+bootES_vistype_analysis1(
+  contrast1 = "3", # 30-60 minss
+  contrast2 = "6", # 120+ mins
+  data_col = "Effectivness",
+  group_col = "BG_Daily_Usage"
+)
+)
+```
+
+## Daily device usage - Confidence - VisType/task
+```{r}
+bootES_vistype_analysis1(
+  contrast1 = "3", # 30-60 minss
+  contrast2 = "6", # 120+ mins
+  data_col = "Confidence_Mean",
+  group_col = "BG_Daily_Usage"
+)
+
+bootES_task_analysis(
+  contrast1 = "3", # 30-60 minss
+  contrast2 = "6", # 120+ mins
+  data_col = "Confidence_Mean",
+  group_col = "BG_Daily_Usage"
+)
+
+xtable(
+  bootES_vistype_analysis1(
+  contrast1 = "3", # 30-60 minss
+  contrast2 = "6", # 120+ mins
+  data_col = "Confidence_Mean",
+  group_col = "BG_Daily_Usage"
+)
+)
+```
+
+## Daily device usage - Time needed - VisType/task
+```{r}
+bootES_vistype_analysis1(
+  contrast1 = "3", # 30-60 minss
+  contrast2 = "6", # 120+ mins
+  data_col = "Time_Needed_Mean",
+  group_col = "BG_Daily_Usage"
+)
+
+bootES_task_analysis(
+  contrast1 = "3", # 30-60 minss
+  contrast2 = "6", # 120+ mins
+  data_col = "Time_Needed_Mean",
+  group_col = "BG_Daily_Usage"
+)
+
+xtable(
+bootES_vistype_analysis1(
+  contrast1 = "3", # 30-60 minss
+  contrast2 = "6", # 120+ mins
+  data_col = "Time_Needed_Mean",
+  group_col = "BG_Daily_Usage"
+)
+)
+```
+
+## Subjective best - Time needed - VisTypes
+```{r}
+bootES_subjectivity_vis_analysis(
+  data_col = "Time_Needed_Mean",
+  group_col = "Subjective_Best"
+)
+
+bootES_subjectivity_task_analysis(
+  data_col = "Time_Needed_Mean",
+  group_col = "Subjective_Best"
+)
+```
+
+## Subjective best - Effectiveness - VisTypes
+```{r}
+bootES_subjectivity_vis_analysis(
+  data_col = "Effectivness",
+  group_col = "Subjective_Best"
+)
+
+bootES_subjectivity_task_analysis(
+  data_col = "Effectivness",
+  group_col = "Subjective_Best"
+)
+```
+
+## Subjective best - Effectiveness - VisTypes
+```{r}
+
+bootES_subjectivity_vis_analysis(
+  data_col = "Confidence_Mean",
+  group_col = "Subjective_Best"
+)
+
+bootES_subjectivity_task_analysis(
+  data_col = "Confidence_Mean",
+  group_col = "Subjective_Best"
+)
+
+```
+
+## Subjective worst - Time needed - VisTypes
+```{r}
+bootES_subjectivity_vis_analysis(
+  data_col = "Time_Needed_Mean",
+  group_col = "Subjective_Worst"
+)
+
+bootES_subjectivity_task_analysis(
+  data_col = "Time_Needed_Mean",
+  group_col = "Subjective_Worst"
+)
+```
+
+## Subjective worst - Effectiveness - VisTypes
+```{r}
+bootES_subjectivity_vis_analysis(
+  data_col = "Effectivness",
+  group_col = "Subjective_Worst"
+)
+
+bootES_subjectivity_task_analysis(
+  data_col = "Effectivness",
+  group_col = "Subjective_Worst"
+)
+```
+
+## Subjective worst - Effectiveness - VisTypes/Task
+```{r}
+bootES_subjectivity_vis_analysis(
+  data_col = "Confidence_Mean",
+  group_col = "Subjective_Worst"
+)
+
+bootES_subjectivity_task_analysis(
+  data_col = "Confidence_Mean",
+  group_col = "Subjective_Worst"
+)
+
+```

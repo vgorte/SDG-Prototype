@@ -1,0 +1,65 @@
+BG_Age,BG_Gender,BG_Familiartiy_Choropleth,BG_Familiartiy_GSM,BG_UsageForMapReadingTasks,BG_Knowledge_Geography_EU,BG_OS,BG_Daily_Usage,BG_Weekly_Usage_MapsApplications,Vis_Type,Task_Type,Time_Needed_Mean,Confidence_Mean,Effectivness,Subjective_Best,Subjective_Worst
+26,F,4,3,4,4,Android,6,3,Choriented Mobile,Cluster,83,4.5,1,Choropleth Map,Choriented Map
+26,F,4,3,4,4,Android,6,3,GSM,Distribution,83,4.5,0.5,Choropleth Map,Choriented Map
+26,F,4,3,4,4,Android,6,3,Choriented Map,Frequency,63,3,0.5,Choropleth Map,Choriented Map
+26,F,4,3,4,4,Android,6,3,Choropleth Map,Trend,74,3.5,1,Choropleth Map,Choriented Map
+33,F,5,5,5,4,Android,6,3,Choriented Mobile,Frequency,121,5,1,Choropleth Map,Choriented Mobile
+33,F,5,5,5,4,Android,6,3,GSM,Cluster,126,5,0.5,Choropleth Map,Choriented Mobile
+33,F,5,5,5,4,Android,6,3,Choriented Map,Trend,58,5,0.5,Choropleth Map,Choriented Mobile
+33,F,5,5,5,4,Android,6,3,Choropleth Map,Distribution,102,5,1,Choropleth Map,Choriented Mobile
+26,F,4,3,3,4,Android,6,4,Choriented Mobile,Trend,114,4,1,Choropleth Map,GSM
+26,F,4,3,3,4,Android,6,4,GSM,Frequency,117,4,1,Choropleth Map,GSM
+26,F,4,3,3,4,Android,6,4,Choriented Map,Distribution,97,3.5,1,Choropleth Map,GSM
+26,F,4,3,3,4,Android,6,4,Choropleth Map,Cluster,86,4,1,Choropleth Map,GSM
+67,M,2,2,3,5,Android,6,2,Choriented Mobile,Distribution,253,5,1,Choropleth Map,GSM
+67,M,2,2,3,5,Android,6,2,GSM,Trend,192,5,1,Choropleth Map,GSM
+67,M,2,2,3,5,Android,6,2,Choriented Map,Cluster,172,5,1,Choropleth Map,GSM
+67,M,2,2,3,5,Android,6,2,Choropleth Map,Frequency,116,5,1,Choropleth Map,GSM
+43,F,4,4,4,4,Android,5,4,Choriented Map,Cluster,141,5,1,Choropleth Map,Choriented Map
+43,F,4,4,4,4,Android,5,4,Choropleth Map,Distribution,138,5,1,Choropleth Map,Choriented Map
+43,F,4,4,4,4,Android,5,4,GSM,Frequency,154,4.5,1,Choropleth Map,Choriented Map
+43,F,4,4,4,4,Android,5,4,Choriented Mobile,Trend,104,5,1,Choropleth Map,Choriented Map
+49,M,4,4,3,4,Android,3,3,Choriented Map,Frequency,119,5,1,Choropleth Map,Choriented Mobile
+49,M,4,4,3,4,Android,3,3,Choropleth Map,Cluster,196,5,1,Choropleth Map,Choriented Mobile
+49,M,4,4,3,4,Android,3,3,GSM,Trend,188,5,1,Choropleth Map,Choriented Mobile
+49,M,4,4,3,4,Android,3,3,Choriented Mobile,Distribution,99,5,1,Choropleth Map,Choriented Mobile
+21,F,4,4,4,3,iOS,3,5,Choriented Map,Trend,64,4.5,1,Choropleth Map,GSM
+21,F,4,4,4,3,iOS,3,5,Choropleth Map,Frequency,66,4.5,1,Choropleth Map,GSM
+21,F,4,4,4,3,iOS,3,5,GSM,Distribution,105,5,1,Choropleth Map,GSM
+21,F,4,4,4,3,iOS,3,5,Choriented Mobile,Cluster,77,5,1,Choropleth Map,GSM
+21,M,4,3,4,4,iOS,3,5,Choriented Map,Distribution,201,4,1,Choriented Map,Choriented Mobile
+21,M,4,3,4,4,iOS,3,5,Choropleth Map,Trend,102,4,1,Choriented Map,Choriented Mobile
+21,M,4,3,4,4,iOS,3,5,GSM,Cluster,133,4,1,Choriented Map,Choriented Mobile
+21,M,4,3,4,4,iOS,3,5,Choriented Mobile,Frequency,79,4,1,Choriented Map,Choriented Mobile
+25,M,4,4,5,5,Android,4,4,GSM,Cluster,114,5,1,Choriented Map,Choriented Mobile
+25,M,4,4,5,5,Android,4,4,Choriented Mobile,Distribution,140,5,1,Choriented Map,Choriented Mobile
+25,M,4,4,5,5,Android,4,4,Choropleth Map,Frequency,61,5,1,Choriented Map,Choriented Mobile
+25,M,4,4,5,5,Android,4,4,Choriented Map,Trend,104,5,1,Choriented Map,Choriented Mobile
+26,M,5,5,5,5,Android,5,5,GSM,Frequency,114,5,1,Choriented Map,GSM
+26,M,5,5,5,5,Android,5,5,Choriented Mobile,Cluster,90,5,1,Choriented Map,GSM
+26,M,5,5,5,5,Android,5,5,Choropleth Map,Trend,65,3,1,Choriented Map,GSM
+26,M,5,5,5,5,Android,5,5,Choriented Map,Distribution,89,4.5,1,Choriented Map,GSM
+24,F,5,5,5,4,Android,3,3,GSM,Trend,85,4.5,1,Choropleth Map,Choriented Map
+24,F,5,5,5,4,Android,3,3,Choriented Mobile,Frequency,76,4.5,1,Choropleth Map,Choriented Map
+24,F,5,5,5,4,Android,3,3,Choropleth Map,Distribution,88,5,1,Choropleth Map,Choriented Map
+24,F,5,5,5,4,Android,3,3,Choriented Map,Cluster,83,5,1,Choropleth Map,Choriented Map
+32,M,5,5,5,5,iOS,6,5,GSM,Distribution,104,4.5,1,Choropleth Map,Choriented Map
+32,M,5,5,5,5,iOS,6,5,Choriented Mobile,Trend,57,5,1,Choropleth Map,Choriented Map
+32,M,5,5,5,5,iOS,6,5,Choropleth Map,Cluster,105,5,1,Choropleth Map,Choriented Map
+32,M,5,5,5,5,iOS,6,5,Choriented Map,Frequency,103,5,1,Choropleth Map,Choriented Map
+31,M,4,4,5,5,Android,6,5,Choropleth Map,Cluster,106,5,1,GSM,Choriented Mobile
+31,M,4,4,5,5,Android,6,5,Choriented Map,Distribution,104,5,1,GSM,Choriented Mobile
+31,M,4,4,5,5,Android,6,5,Choriented Mobile,Frequency,107,5,1,GSM,Choriented Mobile
+31,M,4,4,5,5,Android,6,5,GSM,Trend,48,5,1,GSM,Choriented Mobile
+26,M,5,5,5,5,Android,4,3,Choropleth Map,Frequency,108,5,1,Choropleth Map,Choriented Map
+26,M,5,5,5,5,Android,4,3,Choriented Map,Cluster,92,5,1,Choropleth Map,Choriented Map
+26,M,5,5,5,5,Android,4,3,Choriented Mobile,Trend,95,4,1,Choropleth Map,Choriented Map
+26,M,5,5,5,5,Android,4,3,GSM,Distribution,55,5,1,Choropleth Map,Choriented Map
+26,M,5,5,5,4,Android,6,4,Choropleth Map,Trend,125,4,0.5,Choriented Mobile,GSM
+26,M,5,5,5,4,Android,6,4,Choriented Map,Frequency,138,4,1,Choriented Mobile,GSM
+26,M,5,5,5,4,Android,6,4,Choriented Mobile,Distribution,93,5,1,Choriented Mobile,GSM
+26,M,5,5,5,4,Android,6,4,GSM,Cluster,114,5,1,Choriented Mobile,GSM
+30,M,4,4,4,4,Android,6,5,Choropleth Map,Distribution,102,5,1,Choropleth Map,GSM
+30,M,4,4,4,4,Android,6,5,Choriented Map,Trend,114,3.5,1,Choropleth Map,GSM
+30,M,4,4,4,4,Android,6,5,Choriented Mobile,Cluster,94,4.5,1,Choropleth Map,GSM
+30,M,4,4,4,4,Android,6,5,GSM,Frequency,75,4.5,1,Choropleth Map,GSM
