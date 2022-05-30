@@ -167,6 +167,10 @@ There are two types of choriented maps:
 * [Center Of Polygon](https://github.com/mapbox/polylabel)
 * [TinyQueue](https://github.com/mourner/tinyqueue)
 
+## Publication
+[arxiv] [Choriented Maps: Visualizing SDG Data on Mobile Devices](https://arxiv.org/abs/2111.07274).
+
+
 ## Author
 
 * **Viktor Gorte** 
